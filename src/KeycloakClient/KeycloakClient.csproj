@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>KeycloakClient</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Artur Stolear, Valeriu Coban</Authors>
+    <PackageProjectUrl>https://github.com/arturcic/KeycloakClient.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/arturcic/KeycloakClient.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>.Net client for Keycloak</Description>
   </PropertyGroup>
 
   <ItemGroup>

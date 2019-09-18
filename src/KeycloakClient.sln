@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29311.281
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeycloakClient", "src\KeycloakClient\KeycloakClient.csproj", "{D6DDA0DB-A455-452B-B4AC-8D7C8051274C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeycloakClient", "KeycloakClient\KeycloakClient.csproj", "{D6DDA0DB-A455-452B-B4AC-8D7C8051274C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
