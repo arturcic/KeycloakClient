@@ -9,9 +9,16 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+		
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v1
-      - name: 'Echo'
-        if: matrix.os == 'windows-latest'
-        run: echo 'WINDOWS'
+      - name: 'Use .NET Core sdk'
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '2.2.402' # SDK Version to use.        
+      - name: 'Env Vars'
+        run: env | sort
+      - name: 'Install Cake tool'
+		shell: powershell
+        run: ./build.ps1 -Target Pack
