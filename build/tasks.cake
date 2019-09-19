@@ -43,7 +43,7 @@ Task("Test")
             if (!parameters.IsRunningOnMacOS) {
                 settings.TestAdapterPath = new DirectoryPath(".");
                 var resultsPath = MakeAbsolute(testResultsPath.CombineWithFilePath($"{projectName}.results.xml"));
-                settings.ArgumentCustomization = args=>args.Append($"--logger trx;LogFileName=\"{resultsPath}\"");
+                settings.Logger = $"xunit;LogFilePath={resultsPath}";
             }
 
             var coverletSettings = new CoverletSettings {
