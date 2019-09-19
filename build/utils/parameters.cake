@@ -8,6 +8,9 @@ public class BuildParameters
     public string Target { get; private set; }
     public string Configuration { get; private set; }
 
+    public const string MainRepoOwner = "arturcic";
+    public const string MainRepoName = "KeycloakClient";
+
     public string CoreFxVersion { get; private set; } = "netcoreapp2.1";
 
     public bool EnabledUnitTests { get; private set; }
@@ -125,7 +128,7 @@ public class BuildParameters
 
         context.Information("Repository Name: {0}" , repositoryName);
 
-        return !string.IsNullOrWhiteSpace(repositoryName) && StringComparer.OrdinalIgnoreCase.Equals("arturcic/KeycloakClient", repositoryName);
+        return !string.IsNullOrWhiteSpace(repositoryName) && StringComparer.OrdinalIgnoreCase.Equals($"{BuildParameters.MainRepoOwner}/{BuildParameters.MainRepoName}", repositoryName);
     }
 
     private static bool IsOnMainBranch(ICakeContext context)

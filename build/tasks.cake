@@ -17,6 +17,22 @@ Task("Build")
     Build(parameters);
 });
 
+Task("Pack-Nuget")
+    .IsDependentOn("Build")
+    .Does<BuildParameters>((parameters) =>
+{
+    var settings = new DotNetCorePackSettings
+    {
+        Configuration = parameters.Configuration,
+        OutputDirectory = parameters.Paths.Directories.NugetRoot,
+        NoBuild = true,
+        NoRestore = true,
+        MSBuildSettings = parameters.MSBuildSettings
+    };
+
+    DotNetCorePack("./src/KeycloakClient", settings);
+});
+
 Task("Release-Notes")
     .WithCriteria<BuildParameters>((context, parameters) => parameters.IsRunningOnWindows,       "Release notes are generated only on Windows agents.")
     .WithCriteria<BuildParameters>((context, parameters) => parameters.IsRunningOnAzurePipeline, "Release notes are generated only on AzurePipeline.")
@@ -28,8 +44,8 @@ Task("Release-Notes")
         throw new InvalidOperationException("Could not resolve Github token.");
     }
 
-    var repoOwner = "arturcic";
-    var repository = "KeycloakClient";
+    var repoOwner = BuildParameters.MainRepoOwner;
+    var repository = BuildParameters.MainRepoName;
     GitReleaseManagerCreate(token, repoOwner, repository, new GitReleaseManagerCreateSettings {
         Milestone         = parameters.Version.Milestone,
         Name              = parameters.Version.Milestone,

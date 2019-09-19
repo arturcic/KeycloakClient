@@ -74,7 +74,7 @@ Teardown<BuildParameters>((context, parameters) =>
 // TASKS
 //////////////////////////////////////////////////////////////////////
 Task("Pack")
-    .IsDependentOn("Build")
+    .IsDependentOn("Pack-Nuget")
     .Finally(() =>
 {
 });
