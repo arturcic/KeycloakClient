@@ -81,6 +81,7 @@ Teardown<BuildParameters>((context, parameters) =>
 //////////////////////////////////////////////////////////////////////
 Task("Pack")
     .IsDependentOn("Pack-Nuget")
+    .IsDependentOn("Publish-Coverage")
     .Finally(() =>
 {
 });
@@ -88,7 +89,6 @@ Task("Pack")
 Task("Publish")
     .IsDependentOn("Publish-AzurePipeline")
     .IsDependentOn("Publish-NuGet")
-    .IsDependentOn("Publish-Coverage")
     .Finally(() =>
 {
     if (publishingError)
