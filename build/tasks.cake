@@ -71,7 +71,7 @@ Task("Test")
         if (testResultsFiles.Any()) {
             var data = new TFBuildPublishTestResultsData {
                 TestResultsFiles = testResultsFiles.ToArray(),
-                TestRunner = TFTestRunnerType.NUnit
+                TestRunner = TFTestRunnerType.XUnit
             };
             TFBuild.Commands.PublishTestResults(data);
         }
