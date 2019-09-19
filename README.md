@@ -127,11 +127,11 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/roles/{role-name}`                              	| Get a role by name                                                                    	|
 |    `PUT` 	| `/{realm}/roles/{role-name}`                              	| Update a role by name                                                                 	|
 | `DELETE` 	| `/{realm}/roles/{role-name}`                              	| Delete a role by name                                                                 	|
-|    `GET` 	| `/{realm}/roles/{role-name}/composite`                    	| Get role�s children Returns a set of role�s children provided the role is a composite.	|
+|    `GET` 	| `/{realm}/roles/{role-name}/composite`                    	| Get role's children Returns a set of role's children provided the role is a composite.	|
 |   `POST` 	| `/{realm}/roles/{role-name}/composite`                    	| Make the role a composite role by associating some child roles                        	|
-| `DELETE` 	| `/{realm}/roles/{role-name}/composite`                    	| Remove a set of roles from the role�s composite                                       	|
-|    `GET` 	| `/{realm}/roles/{role-name}/composites/realm`             	| Get realm-level roles that are in the role�s composite                                	|
-|    `GET` 	| `/{realm}/roles/{role-name}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role�s composite               		|
+| `DELETE` 	| `/{realm}/roles/{role-name}/composite`                    	| Remove a set of roles from the role's composite                                       	|
+|    `GET` 	| `/{realm}/roles/{role-name}/composites/realm`             	| Get realm-level roles that are in the role's composite                                	|
+|    `GET` 	| `/{realm}/roles/{role-name}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role's composite               		|
 |    `GET` 	| `/{realm}/roles/{role-name}/users`                        	| Return List of Users that have the specified role name                                	|
 
 
@@ -142,11 +142,11 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/roles-by-id/{role-id}`                              	| Get a specific role by Id                                                             	|
 |    `PUT` 	| `/{realm}/roles-by-id/{role-id}`                              	| Update a specific role by Id                                                          	|
 | `DELETE` 	| `/{realm}/roles-by-id/{role-id}`                              	| Delete a specific role by Id                                                          	|
-|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composite`                    	| Get role�s children Returns a set of role�s children provided the role is a composite.	|
+|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composite`                    	| Get role's children Returns a set of role's children provided the role is a composite.	|
 |   `POST` 	| `/{realm}/roles-by-id/{role-id}/composite`                    	| Make the role a composite role by associating some child roles                        	|
-| `DELETE` 	| `/{realm}/roles-by-id/{role-id}/composite`                    	| Remove a set of roles from the role�s composite                                       	|
-|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composites/realm`             	| Get realm-level roles that are in the role�s composite                                	|
-|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role�s composite                	|
+| `DELETE` 	| `/{realm}/roles-by-id/{role-id}/composite`                    	| Remove a set of roles from the role's composite                                       	|
+|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composites/realm`             	| Get realm-level roles that are in the role's composite                                	|
+|    `GET` 	| `/{realm}/roles-by-id/{role-id}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role's composite                	|
 
 
 ### [Client roles](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_roles_resource)
@@ -158,11 +158,11 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}`                              	| Get representation of the role for the client                                         	|
 |    `PUT` 	| `/{realm}/clients/{id}/roles/{role-name}`                              	| Update the role for the client                                                        	|
 | `DELETE` 	| `/{realm}/clients/{id}/roles/{role-name}`                              	| Delete the role for the client                                                        	|
-|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composite`                    	| Get role�s children Returns a set of role�s children provided the role is a composite.	|
+|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composite`                    	| Get role's children Returns a set of role's children provided the role is a composite.	|
 |   `POST` 	| `/{realm}/clients/{id}/roles/{role-name}/composite`                    	| Make the role a composite role by associating some child roles                        	|
-| `DELETE` 	| `/{realm}/clients/{id}/roles/{role-name}/composite`                    	| Remove a set of roles from the role�s composite                                       	|
-|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composites/realm`             	| Get realm-level roles that are in the role�s composite                                	|
-|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role�s composite                	|
+| `DELETE` 	| `/{realm}/clients/{id}/roles/{role-name}/composite`                    	| Remove a set of roles from the role's composite                                       	|
+|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composites/realm`             	| Get realm-level roles that are in the role's composite                                	|
+|    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role's composite                	|
 |    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/users`                        	| Return List of Users that have the specified role name                                	|
 
 

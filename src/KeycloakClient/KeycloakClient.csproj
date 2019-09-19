@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/arturcic/KeycloakClient.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>.Net client for Keycloak</Description>
+    <PackageId>keycloak.admin.client</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
