@@ -13,5 +13,5 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v1
       - name: 'Echo'
-        if: $RUNNER_OS == 'Windows'
+        if: matrix.os == 'windows-latest'
         run: echo 'WINDOWS'
