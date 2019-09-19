@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    name: 'Build ${{ matrix.os }}'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v1
+      - name: 'Env Vars'
+        run: env | sort
+      - name: 'Cake build & pack'
+        shell: pwsh
+        run: ./build.ps1 -Target Pack
