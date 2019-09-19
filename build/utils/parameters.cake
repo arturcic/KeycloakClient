@@ -11,8 +11,6 @@ public class BuildParameters
     public const string MainRepoOwner = "arturcic";
     public const string MainRepoName = "KeycloakClient";
 
-    public string CoreFxVersion { get; private set; } = "netcoreapp2.1";
-
     public bool EnabledUnitTests { get; private set; }
     public bool EnabledPublishNuget { get; private set; }
 

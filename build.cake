@@ -88,6 +88,7 @@ Task("Pack")
 Task("Publish")
     .IsDependentOn("Publish-AzurePipeline")
     .IsDependentOn("Publish-NuGet")
+    .IsDependentOn("Publish-Coverage")
     .Finally(() =>
 {
     if (publishingError)

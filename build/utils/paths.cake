@@ -26,8 +26,6 @@ public class BuildPaths
         var semVersion = version.SemVersion;
 
         var artifactsDir          = (DirectoryPath)(context.Directory("./artifacts") + context.Directory("v" + semVersion));
-        var artifactsBinDir       = artifactsDir.Combine("bin");
-        var artifactsBinCoreFxDir = artifactsBinDir.Combine(parameters.CoreFxVersion);
         var nugetRootDir          = artifactsDir.Combine("nuget");
         var testResultsOutputDir  = artifactsDir.Combine("test-results");
 
@@ -39,9 +37,7 @@ public class BuildPaths
         var buildDirectories = new BuildDirectories(
             artifactsDir,
             testResultsOutputDir,
-            nugetRootDir,
-            artifactsBinDir,
-            artifactsBinCoreFxDir);
+            nugetRootDir);
 
         // Files
         var buildFiles = new BuildFiles(
@@ -78,29 +74,21 @@ public class BuildDirectories
     public DirectoryPath Artifacts { get; private set; }
     public DirectoryPath NugetRoot { get; private set; }
     public DirectoryPath TestResultsOutput { get; private set; }
-    public DirectoryPath ArtifactsBin { get; private set; }
-    public DirectoryPath ArtifactsBinCoreFx { get; private set; }
     public ICollection<DirectoryPath> ToClean { get; private set; }
 
     public BuildDirectories(
         DirectoryPath artifactsDir,
         DirectoryPath testResultsOutputDir,
-        DirectoryPath nugetRootDir,
-        DirectoryPath artifactsBinDir,
-        DirectoryPath artifactsBinCoreFxDir
+        DirectoryPath nugetRootDir
         )
     {
         Artifacts = artifactsDir;
         TestResultsOutput = testResultsOutputDir;
         NugetRoot = nugetRootDir;
-        ArtifactsBin = artifactsBinDir;
-        ArtifactsBinCoreFx = artifactsBinCoreFxDir;
         ToClean = new[] {
             Artifacts,
             TestResultsOutput,
-            NugetRoot,
-            ArtifactsBin,
-            ArtifactsBinCoreFx
+            NugetRoot
         };
     }
 }
