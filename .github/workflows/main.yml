@@ -19,5 +19,5 @@ jobs:
       - name: 'Env Vars'
         run: env | sort
       - name: 'Install Cake tool'
-        shell: powershell
+        shell: pwsh
         run: ./build.ps1 -Target Pack
