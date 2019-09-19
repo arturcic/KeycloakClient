@@ -75,3 +75,16 @@ void Build(BuildParameters parameters)
         MSBuildSettings = parameters.MSBuildSettings
     });
 }
+
+public static CakeTaskBuilder IsDependentOnWhen(this CakeTaskBuilder builder, string name, bool condition)
+{
+    if (builder == null)
+    {
+        throw new ArgumentNullException(nameof(builder));
+    }
+    if (condition)
+    {
+        builder.IsDependentOn(name);
+    }
+    return builder;
+}

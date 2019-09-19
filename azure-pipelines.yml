@@ -1,0 +1,40 @@
+variables: { DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true', DOTNET_CLI_TELEMETRY_OPTOUT: 'true' }
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    strategy:
+      matrix:
+        'Windows':
+          VM_IMAGE: 'windows-latest'
+        'Linux':
+          VM_IMAGE: 'ubuntu-latest'
+        'macOS':
+          VM_IMAGE: 'macOS-latest'
+    pool:
+      vmImage: $(VM_IMAGE)
+    steps:
+    - template: build/stages/build.yml
+
+# - stage: Publish
+#   dependsOn: Build
+#   condition: succeeded()
+#   jobs:
+#   - job: Publish
+#     pool:
+#       vmImage: windows-latest
+#     steps:
+#     - template: build/stages/publish.yml
+
+# - stage: Release
+#   dependsOn:
+#   - Docker
+#   - Publish
+#   condition: succeeded()
+#   jobs:
+#   - job: Release
+#     pool:
+#       vmImage: windows-latest
+#     steps:
+#     - template: build/stages/release.yml

@@ -1,6 +1,6 @@
 public class BuildPackages
 {
-    public ICollection<BuildPackage> Nuget { get; private set; }
+    public ICollection<BuildPackage> All { get; private set; }
 
     public static BuildPackages GetPackages(
         DirectoryPath nugetRooPath,
@@ -11,7 +11,7 @@ public class BuildPackages
         var nugetPackages = packageIds.Select(toNugetPackage).ToArray();
 
         return new BuildPackages {
-            Nuget = nugetPackages
+            All = nugetPackages
         };
     }
 

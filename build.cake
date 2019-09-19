@@ -19,6 +19,12 @@
 
 #load "./build/tasks.cake"
 
+//////////////////////////////////////////////////////////////////////
+// PARAMETERS
+//////////////////////////////////////////////////////////////////////
+bool publishingError = false;
+bool singleStageRun = true;
+
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,6 +83,17 @@ Task("Pack")
     .IsDependentOn("Pack-Nuget")
     .Finally(() =>
 {
+});
+
+Task("Publish")
+    .IsDependentOn("Publish-AzurePipeline")
+    .IsDependentOn("Publish-NuGet")
+    .Finally(() =>
+{
+    if (publishingError)
+    {
+        throw new Exception("An error occurred during the publishing of KeycloakClient. All publishing tasks have been attempted.");
+    }
 });
 
 Task("Release")
