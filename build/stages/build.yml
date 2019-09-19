@@ -4,6 +4,7 @@ steps:
   displayName: 'Cake build & pack'
   env:
     ENABLED_UNIT_TESTS: $(ENABLED_UNIT_TESTS)
+    CODECOV_TOKEN: $(CODECOV_TOKEN)
 - publish: $(System.DefaultWorkingDirectory)
   displayName: 'Upload pipeline artifacts'
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
