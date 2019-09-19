@@ -19,5 +19,5 @@ jobs:
       - name: 'Env Vars'
         run: env | sort
       - name: Display the path
-        run: dotnet cake build.cake --bootstrap; dotnet cake build.cake --target=Pack
+        run: ./build.ps1 -Target Pack
         shell: pwsh
