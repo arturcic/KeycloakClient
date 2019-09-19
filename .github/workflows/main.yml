@@ -10,12 +10,15 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-dotnet@v1
+      - nmae: 'Checkout'
+        uses: actions/checkout@v1
+      - name: 'Use .NET Core sdk'
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.2.402' # SDK Version to use.
-        name: 'Use .NET Core sdk'
-      - name: Run a one-line script
+          dotnet-version: '2.2.402' # SDK Version to use.        
+      - name: 'Env Vars'
         run: env | sort
+      - name: 'Install Cake tool'
+        run: dotnet tool install --global Cake.Tool
       - name: 'Cake build & pack'
         run: dotnet cake build.cake --bootstrap && dotnet cake build.cake --target=Pack
