@@ -38,6 +38,7 @@ Task("Test")
                 NoBuild = true,
                 NoRestore = true,
                 Configuration = parameters.Configuration,
+                Filter = "Category=UnitTest"
             };
 
             if (!parameters.IsRunningOnMacOS) {
@@ -78,8 +79,103 @@ Task("Test")
     }
 });
 
+Task("IntegrationTest")
+    .WithCriteria<BuildParameters>((context, parameters) => parameters.EnabledIntegrationTests, "IntegrationTest tests were disabled.")
+    .WithCriteria<BuildParameters>((context, parameters) => parameters.IsRunningOnLinux, "IntegrationTest tests can not run on Mac for now")
+    .IsDependentOn("Test")
+    .Does<BuildParameters>((parameters) =>
+{
+     var dockerSettings = new DockerContainerRunSettings
+     {
+         Name = "IntegrationTestContainer",
+         Env =  new[] {
+            "KEYCLOAK_USER=Admin",
+            "KEYCLOAK_PASSWORD=Admin"
+         },
+         Publish = new[] {
+            "8080:8080"
+         },
+         Detach = true
+
+     };
+     DockerRun(dockerSettings, "jboss/keycloak", null);
+
+    string responseBody = "";
+     do{
+        try{
+            responseBody = HttpGet("http://localhost:8080/auth/realms/master");
+        }catch(Exception ex){
+            System.Threading.Thread.Sleep(2000);
+        }
+     }while(responseBody.Length <= 0);
+
+     var frameworks = new[] { "netcoreapp2.1", "netcoreapp2.2" };
+         var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
+
+         foreach(var framework in frameworks)
+         {
+             // run using dotnet test
+             var actions = new List<Action>();
+             var projects = GetFiles("./src/**/*.Test.csproj");
+             foreach(var project in projects)
+             {
+                 var projectName = $"{project.GetFilenameWithoutExtension()}.{framework}";
+                 var settings = new DotNetCoreTestSettings {
+                     Framework = framework,
+                     NoBuild = true,
+                     NoRestore = true,
+                     Configuration = parameters.Configuration,
+                     Filter = "Category=IntegrationTest"
+                 };
+
+                 if (!parameters.IsRunningOnMacOS) {
+                     settings.TestAdapterPath = new DirectoryPath(".");
+                     var resultsPath = MakeAbsolute(testResultsPath.CombineWithFilePath($"{projectName}.resultsIntegration.xml"));
+                     settings.Logger = $"xunit;LogFilePath={resultsPath}";
+                 }
+
+                 var coverletSettings = new CoverletSettings {
+                     CollectCoverage = true,
+                     CoverletOutputFormat = CoverletOutputFormat.opencover,
+                     CoverletOutputDirectory = testResultsPath,
+                     CoverletOutputName = $"{projectName}.coverageIntegration.xml"
+                 };
+
+                 DotNetCoreTest(project.FullPath, settings, coverletSettings);
+             }
+         }
+})
+.ReportError(exception =>
+{
+    var error = (exception as AggregateException).InnerExceptions[0];
+    Error(error.Dump());
+})
+.Finally(() =>
+{
+    var parameters = Context.Data.Get<BuildParameters>();
+    var testResultsFiles = GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.resultsIntegration.xml");
+    if (parameters.IsRunningOnAzurePipeline)
+    {
+        if (testResultsFiles.Any()) {
+            var data = new TFBuildPublishTestResultsData {
+                TestResultsFiles = testResultsFiles.ToArray(),
+                TestRunner = TFTestRunnerType.XUnit
+            };
+            TFBuild.Commands.PublishTestResults(data);
+        }
+    }
+});
+
+Task("DockerCleanup")
+    .IsDependentOn("IntegrationTest")
+	.Does(() => {
+		// or more containers at once
+		DockerRm("IntegrationTestContainer");
+	});
+
 Task("Pack-Nuget")
     .IsDependentOn("Test")
+    .IsDependentOn("IntegrationTest")
     .Does<BuildParameters>((parameters) =>
 {
     var settings = new DotNetCorePackSettings
@@ -162,7 +258,8 @@ Task("Publish-Coverage")
     .IsDependentOnWhen("Test", singleStageRun)
     .Does<BuildParameters>((parameters) =>
 {
-    var coverageFiles = GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.coverage.xml");
+    var coverageFiles = GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.coverage.xml")
+        + GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.coverageIntegration.xml");
 
     var token = parameters.Credentials.CodeCov.Token;
     if(string.IsNullOrEmpty(token)) {
