@@ -27,6 +27,7 @@ namespace KeycloakClient.Test
             });
         }
 
+        [Trait("Category", "IntegrationTest")]
         [Fact]
         public async Task GetRealmList()
         {
