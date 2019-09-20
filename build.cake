@@ -10,6 +10,7 @@
 #tool "nuget:?package=nuget.commandline&version=5.2.0"
 
 // Install .NET Core Global tools.
+#tool "dotnet:?package=Codecov.Tool&version=1.7.2"
 #tool "dotnet:?package=GitVersion.Tool&version=5.0.1"
 #tool "dotnet:?package=GitReleaseManager.Tool&version=0.8.0"
 
@@ -81,6 +82,7 @@ Teardown<BuildParameters>((context, parameters) =>
 //////////////////////////////////////////////////////////////////////
 Task("Pack")
     .IsDependentOn("Pack-Nuget")
+    .IsDependentOn("Publish-Coverage")
     .Finally(() =>
 {
 });

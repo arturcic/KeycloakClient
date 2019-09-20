@@ -6,6 +6,8 @@
 | Azure Pipelines | Linux    | [![Build Status][azure-pipeline-badge-linux] ][azure-pipeline]   |
 | Azure Pipelines | macOS    | [![Build Status][azure-pipeline-badge-macos] ][azure-pipeline]   |
 
+[![codecov](https://codecov.io/gh/arturcic/KeycloakClient/branch/master/graph/badge.svg)](https://codecov.io/gh/arturcic/KeycloakClient)
+
 [azure-pipeline]:                https://dev.azure.com/arturcic/OSS/_build/latest?definitionId=7&branchName=master
 [azure-pipeline-badge-windows]:  https://dev.azure.com/arturcic/OSS/_apis/build/status/KeycloakClient?branchName=master&jobName=Build&configuration=Build%20Windows
 [azure-pipeline-badge-linux]:    https://dev.azure.com/arturcic/OSS/_apis/build/status/KeycloakClient?branchName=master&jobName=Build&configuration=Build%20Linux
