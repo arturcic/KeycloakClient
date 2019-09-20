@@ -1,11 +1,6 @@
+using FluentAssertions;
 using Microsoft.CSharp.RuntimeBinder;
-using Microsoft.Extensions.Options;
-using NSubstitute;
 using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace KeycloakClient.Test
@@ -30,7 +25,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsPath()
         {
             var path = client.Realms();
-            Assert.Equal("admin/realms", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms");
 
         }
 
@@ -39,7 +34,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNamePath()
         {
             var path = client.Realms().Name("testName");
-            Assert.Equal("admin/realms/testName", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName");
 
         }
 
@@ -48,7 +43,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNameClientsPath()
         {
             var path = client.Realms().Name("testName").Clients();
-            Assert.Equal("admin/realms/testName/clients", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName/clients");
 
         }
 
@@ -57,7 +52,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNameClientsIdPath()
         {
             var path = client.Realms().Name("testName").Clients().Id("testClientId");
-            Assert.Equal("admin/realms/testName/clients/testClientId", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName/clients/testClientId");
 
         }
 
@@ -66,7 +61,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNameClientsIdRolesPath()
         {
             var path = client.Realms().Name("testName").Clients().Id("testClientId").Roles();
-            Assert.Equal("admin/realms/testName/clients/testClientId/roles", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName/clients/testClientId/roles");
 
         }
 
@@ -75,7 +70,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNameClientsIdRolesNamePath()
         {
             var path = client.Realms().Name("testName").Clients().Id("testClientId").Roles().Name("testRoleName");
-            Assert.Equal("admin/realms/testName/clients/testClientId/roles/testRoleName", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName/clients/testClientId/roles/testRoleName");
 
         }
 
@@ -84,7 +79,7 @@ namespace KeycloakClient.Test
         public void CheckRealmsNameClientsIdRolesNameRoleCompositePath()
         {
             var path = client.Realms().Name("testName").Clients().Id("testClientId").Roles().Name("testRoleName").GetRoleCompositesAsync();
-            Assert.Equal("admin/realms/testName/clients/testClientId/roles/testRoleName", GetFinalPath(path));
+            GetFinalPath(path).Should().BeEquivalentTo("admin/realms/testName/clients/testClientId/roles/testRoleName");
 
         }
 
