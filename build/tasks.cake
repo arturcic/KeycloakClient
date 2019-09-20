@@ -81,7 +81,7 @@ Task("Test")
 
 Task("IntegrationTest")
     .WithCriteria<BuildParameters>((context, parameters) => parameters.EnabledIntegrationTests, "IntegrationTest tests were disabled.")
-    .WithCriteria<BuildParameters>((context, parameters) => !parameters.IsRunningOnMacOS, "IntegrationTest tests can not run on Mac for now")
+    .WithCriteria<BuildParameters>((context, parameters) => parameters.IsRunningOnLinux, "IntegrationTest tests can not run on Mac for now")
     .IsDependentOn("Test")
     .Does<BuildParameters>((parameters) =>
 {
