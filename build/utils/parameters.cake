@@ -11,6 +11,7 @@ public class BuildParameters
     public const string MainRepoOwner = "arturcic";
     public const string MainRepoName = "KeycloakClient";
 
+    public bool EnabledIntegrationTests { get; private set; }
     public bool EnabledUnitTests { get; private set; }
     public bool EnabledPublishNuget { get; private set; }
 
@@ -55,8 +56,9 @@ public class BuildParameters
             Target        = target,
             Configuration = context.Argument("configuration", "Release"),
 
-            EnabledUnitTests    = IsEnabled(context, "ENABLED_UNIT_TESTS"),
-            EnabledPublishNuget = IsEnabled(context, "ENABLED_PUBLISH_NUGET"),
+            EnabledUnitTests        = IsEnabled(context, "ENABLED_UNIT_TESTS"),
+            EnabledIntegrationTests = IsEnabled(context, "ENABLED_INTEGRATION_TESTS"),
+            EnabledPublishNuget     = IsEnabled(context, "ENABLED_PUBLISH_NUGET"),
 
             IsRunningOnUnix    = context.IsRunningOnUnix(),
             IsRunningOnWindows = context.IsRunningOnWindows(),

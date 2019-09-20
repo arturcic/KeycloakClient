@@ -17,6 +17,34 @@ Task("Build")
     Build(parameters);
 });
 
+Task("IntegrationTest")
+//    .WithCriteria<BuildParameters>((context, parameters) => parameters.EnabledIntegrationTests, "IntegrationTest tests were disabled.")
+//    .IsDependentOn("Test")
+    .Does<BuildParameters>((parameters) =>
+{
+     var settings = new DockerContainerRunSettings
+     {
+         Name = "IntegrationTestContainer",
+         Env =  new[] {
+            "KEYCLOAK_USER=Admin",
+            "KEYCLOAK_PASSWORD=Admin"
+         },
+         Publish = new[] {
+            "8080:8080"
+         },
+         Detach = true
+
+     };
+     DockerRun(settings, "jboss/keycloak", null);
+});
+
+Task("DockerCleanup")
+    .IsDependentOn("IntegrationTest")
+	.Does(() => {
+		// or more containers at once
+		DockerRm("IntegrationTestContainer");
+	});
+
 Task("Test")
     .WithCriteria<BuildParameters>((context, parameters) => parameters.EnabledUnitTests, "Unit tests were disabled.")
     .IsDependentOn("Build")
@@ -80,6 +108,7 @@ Task("Test")
 
 Task("Pack-Nuget")
     .IsDependentOn("Test")
+    .IsDependentOn("IntegrationTest")
     .Does<BuildParameters>((parameters) =>
 {
     var settings = new DotNetCorePackSettings

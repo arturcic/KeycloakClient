@@ -5,6 +5,7 @@
 #addin "nuget:?package=Newtonsoft.Json&version=11.0.2"
 #addin "nuget:?package=Cake.Codecov&version=0.7.0"
 #addin "nuget:?package=Cake.Coverlet&version=2.3.4"
+#addin "nuget:?package=Cake.Docker&version=0.10.1"
 #addin "nuget:?package=Cake.Incubator&version=5.1.0"
 
 #tool "nuget:?package=nuget.commandline&version=5.2.0"
