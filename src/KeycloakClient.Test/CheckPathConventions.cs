@@ -14,17 +14,16 @@ namespace KeycloakClient.Test
     {
         public CheckPathConventions()
         {
-            /*var httpClient = Substitute.For<IHttpClient>();
-            client = new KeycloakClient(httpClient as HttpClient, Options.Create(new KeycloakAdminClientOptions*/
-            client = new KeycloakClient(new KeycloakAdminClientOptions
+            var httpClient = Substitute.For<IHttpClient>();
+            client = new KeycloakClient(httpClient as HttpClient, Options.Create(new KeycloakAdminClientOptions
             {
-                ClientId = "testClientId",
+                ClientId = "admin-cli",
+                Username = "Admin",
+                Password = "Admin",
                 ClientScope = "testClientScope",
-                Password = "testPass",
                 Realm = "testRealm",
-                Url = new Uri("http://test.test/"),
-                Username ="testUser"
-            });
+                Url = new Uri("http://localhost:8080/auth/")
+            }));
         }
 
         [Fact]
