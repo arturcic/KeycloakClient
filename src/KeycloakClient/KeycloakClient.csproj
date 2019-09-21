@@ -11,6 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <Description>.Net client for Keycloak</Description>
     <PackageId>keycloak.admin.client</PackageId>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +25,9 @@
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
+</ItemGroup>
 
 </Project>
