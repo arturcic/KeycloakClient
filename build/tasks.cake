@@ -85,65 +85,66 @@ Task("IntegrationTest")
     .IsDependentOn("Test")
     .Does<BuildParameters>((parameters) =>
 {
-     var dockerSettings = new DockerContainerRunSettings
-     {
-         Name = "IntegrationTestContainer",
-         Env =  new[] {
-            "KEYCLOAK_USER=Admin",
-            "KEYCLOAK_PASSWORD=Admin"
-         },
-         Publish = new[] {
-            "8080:8080"
-         },
-         Detach = true
-
-     };
-     DockerRun(dockerSettings, "jboss/keycloak", null);
+    var dockerSettings = new DockerContainerRunSettings
+    {
+        Name = "IntegrationTestContainer",
+        Env =  new[] {
+           "KEYCLOAK_USER=Admin",
+           "KEYCLOAK_PASSWORD=Admin"
+        },
+        Publish = new[] {
+           "8080:8080"
+        },
+        Detach = true
+    };
+    DockerRun(dockerSettings, "jboss/keycloak", null);
 
     string responseBody = "";
-     do{
-        try{
+    do {
+        try {
             responseBody = HttpGet("http://localhost:8080/auth/realms/master");
-        }catch(Exception ex){
+        } catch(Exception ex){
             System.Threading.Thread.Sleep(2000);
         }
-     }while(responseBody.Length <= 0);
+    } while(responseBody.Length <= 0);
 
-     var frameworks = new[] { "netcoreapp2.1", "netcoreapp2.2" };
-         var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
+    var frameworks = new[] { "netcoreapp2.1", "netcoreapp3.0" };
+    var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
 
-         foreach(var framework in frameworks)
-         {
-             // run using dotnet test
-             var actions = new List<Action>();
-             var projects = GetFiles("./src/**/*.Test.csproj");
-             foreach(var project in projects)
-             {
-                 var projectName = $"{project.GetFilenameWithoutExtension()}.{framework}";
-                 var settings = new DotNetCoreTestSettings {
-                     Framework = framework,
-                     NoBuild = true,
-                     NoRestore = true,
-                     Configuration = parameters.Configuration,
-                     Filter = "Category=IntegrationTest"
-                 };
+    foreach(var framework in frameworks)
+    {
+        // run using dotnet test
+        var actions = new List<Action>();
+        var projects = GetFiles("./src/**/*.Test.csproj");
+        foreach(var project in projects)
+        {
+            var projectName = $"{project.GetFilenameWithoutExtension()}.{framework}";
+            var settings = new DotNetCoreTestSettings {
+                Framework = framework,
+                NoBuild = true,
+                NoRestore = true,
+                Configuration = parameters.Configuration,
+                Filter = "Category=IntegrationTest"
+            };
 
-                 if (!parameters.IsRunningOnMacOS) {
-                     settings.TestAdapterPath = new DirectoryPath(".");
-                     var resultsPath = MakeAbsolute(testResultsPath.CombineWithFilePath($"{projectName}.resultsIntegration.xml"));
-                     settings.Logger = $"xunit;LogFilePath={resultsPath}";
-                 }
+            if (!parameters.IsRunningOnMacOS) {
+                settings.TestAdapterPath = new DirectoryPath(".");
+                var resultsPath = MakeAbsolute(testResultsPath.CombineWithFilePath($"{projectName}.resultsIntegration.xml"));
+                settings.Logger = $"xunit;LogFilePath={resultsPath}";
+            }
 
-                 var coverletSettings = new CoverletSettings {
-                     CollectCoverage = true,
-                     CoverletOutputFormat = CoverletOutputFormat.opencover,
-                     CoverletOutputDirectory = testResultsPath,
-                     CoverletOutputName = $"{projectName}.coverageIntegration.xml"
-                 };
+            var coverletSettings = new CoverletSettings {
+                CollectCoverage = true,
+                CoverletOutputFormat = CoverletOutputFormat.opencover,
+                CoverletOutputDirectory = testResultsPath,
+                CoverletOutputName = $"{projectName}.coverageIntegration.xml"
+            };
 
-                 DotNetCoreTest(project.FullPath, settings, coverletSettings);
-             }
-         }
+            DotNetCoreTest(project.FullPath, settings, coverletSettings);
+        }
+    }
+
+    DockerRm(new DockerContainerRmSettings { Force = true }, "IntegrationTestContainer");
 })
 .ReportError(exception =>
 {
@@ -165,13 +166,6 @@ Task("IntegrationTest")
         }
     }
 });
-
-Task("DockerCleanup")
-    .IsDependentOn("IntegrationTest")
-	.Does(() => {
-		// or more containers at once
-		DockerRm("IntegrationTestContainer");
-	});
 
 Task("Pack-Nuget")
     .IsDependentOn("Test")
