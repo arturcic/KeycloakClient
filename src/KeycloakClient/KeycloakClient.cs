@@ -3,6 +3,8 @@ using KeycloakClient.Extensions;
 using KeycloakClient.Internals;
 using KeycloakClient.Realm;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace KeycloakClient
 {
@@ -14,6 +16,17 @@ namespace KeycloakClient
     public class KeycloakClient : IKeycloakClient
     {
         private HttpClient HttpClient { get; }
+
+        static KeycloakClient()
+        {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
+        }
 
         public KeycloakClient(HttpClient httpClient, IOptions<KeycloakAdminClientOptions> clientOptions)
         {
