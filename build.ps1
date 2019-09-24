@@ -145,7 +145,7 @@ if($FoundDotNetCliVersion -ne $DotNetVersion) {
         New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null;
     }
 
-    Install-Dotnet $DotNetVersion
+    Install-Dotnet "3.0.100"
     Install-Dotnet "2.1.802"
     
     Remove-PathVariable "$InstallPath"
