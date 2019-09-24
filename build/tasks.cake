@@ -22,7 +22,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does<BuildParameters>((parameters) =>
 {
-    var frameworks = new[] { "netcoreapp2.1", "netcoreapp2.2" };
+    var frameworks = new[] { "netcoreapp2.1", "netcoreapp3.0" };
     var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
 
     foreach(var framework in frameworks)
@@ -85,7 +85,7 @@ Task("IntegrationTest")
     .IsDependentOn("Test")
     .Does<BuildParameters>((parameters) =>
 {
-    var frameworks = new[] { "netcoreapp2.1", "netcoreapp2.2" };
+    var frameworks = new[] { "netcoreapp2.1", "netcoreapp3.0" };
     var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
 
     foreach(var framework in frameworks)
