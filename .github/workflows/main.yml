@@ -16,7 +16,7 @@ jobs:
         run: env | sort
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.2.402'
+          dotnet-version: '2.1.802'
       - name: 'dotnet info'
         shell: pwsh
         run: dotnet --info
