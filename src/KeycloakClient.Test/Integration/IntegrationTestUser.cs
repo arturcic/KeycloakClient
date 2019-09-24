@@ -4,7 +4,6 @@ using Xunit;
 using FluentAssertions;
 using System.Linq;
 using System.Net.Http;
-using System.Collections.Generic;
 using KeycloakClient.User.Models;
 
 namespace KeycloakClient.Test
@@ -20,8 +19,7 @@ namespace KeycloakClient.Test
                 Username = "Admin",
                 Password = "Admin",
                 Realm = "master",
-                Url = new Uri("http://localhost:8080/auth/"),
-                
+                Url = new Uri("http://localhost:8080/auth/")                
             });
         }
 
@@ -107,8 +105,8 @@ namespace KeycloakClient.Test
             res2.Enabled.Should().BeTrue("The user should be enabled");
             res2.FirstName.Should().BeEquivalentTo("testUserFirstNameUpdate", "The new user first name should be equal to 'testUserFirstNameUpdate'");
             res2.LastName.Should().BeEquivalentTo("testUserLastNameUpdate", "The new user last name should be equal to 'testUserLastNameUpdate'");
-            res2.Email.Should().BeEquivalentTo("testUserMailUpdate", "The new user email should be equal to 'testUserMailUpdate'");
-            res2.Enabled.Should().BeTrue("The user should be enabled");
+            res2.Email.Should().BeEquivalentTo("testusermailupdate", "The new user email should be equal to 'testusermailupdate'");
+            res2.EmailVerified.Should().BeFalse("The user should not have email verified");
         }
 
         [Trait("Category", "IntegrationTest")]
