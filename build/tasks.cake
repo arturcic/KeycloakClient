@@ -85,35 +85,14 @@ Task("IntegrationTest")
     .IsDependentOn("Test")
     .Does<BuildParameters>((parameters) =>
 {
-    var dockerSettings = new DockerContainerRunSettings
-    {
-        Name = "IntegrationTestContainer",
-        Env =  new[] {
-           "KEYCLOAK_USER=Admin",
-           "KEYCLOAK_PASSWORD=Admin"
-        },
-        Publish = new[] {
-           "8080:8080"
-        },
-        Detach = true
-    };
-    DockerRun(dockerSettings, "jboss/keycloak", null);
-
-    string responseBody = "";
-    do {
-        try {
-            responseBody = HttpGet("http://localhost:8080/auth/realms/master");
-        } catch(Exception ex){
-            System.Threading.Thread.Sleep(2000);
-        }
-    } while(responseBody.Length <= 0);
-
-    var frameworks = new[] { "netcoreapp2.1", "netcoreapp3.0" };
+    var frameworks = new[] { "netcoreapp2.1", "netcoreapp2.2" };
     var testResultsPath = parameters.Paths.Directories.TestResultsOutput;
 
     foreach(var framework in frameworks)
     {
         // run using dotnet test
+        StartDockerContainer();
+
         var actions = new List<Action>();
         var projects = GetFiles("./src/**/*.Test.csproj");
         foreach(var project in projects)
@@ -142,9 +121,9 @@ Task("IntegrationTest")
 
             DotNetCoreTest(project.FullPath, settings, coverletSettings);
         }
+        DockerRm(new DockerContainerRmSettings { Force = true }, "IntegrationTestContainer");
     }
 
-    DockerRm(new DockerContainerRmSettings { Force = true }, "IntegrationTestContainer");
 })
 .ReportError(exception =>
 {
@@ -166,6 +145,32 @@ Task("IntegrationTest")
         }
     }
 });
+
+void StartDockerContainer()
+{
+    var dockerSettings = new DockerContainerRunSettings
+    {
+        Name = "IntegrationTestContainer",
+        Env =  new[] {
+           "KEYCLOAK_USER=Admin",
+           "KEYCLOAK_PASSWORD=Admin"
+        },
+        Publish = new[] {
+           "8080:8080"
+        },
+        Detach = true
+    };
+    DockerRun(dockerSettings, "jboss/keycloak", null);
+
+    string responseBody = "";
+    do {
+        try {
+            responseBody = HttpGet("http://localhost:8080/auth/realms/master");
+        } catch(Exception ex){
+            System.Threading.Thread.Sleep(2000);
+        }
+    } while(responseBody.Length <= 0);
+}
 
 Task("Pack-Nuget")
     .IsDependentOn("Test")
