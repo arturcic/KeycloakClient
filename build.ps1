@@ -110,11 +110,34 @@ Function Remove-PathVariable([string]$VariableToRemove)
     }
 }
 
+Function Add-PathVariable([string]$PathToAdd)
+{
+    $SplitChar = ';'
+    if ($IsMacOS -or $IsLinux) {
+        $SplitChar = ':'
+    }
+
+    $env:PATH = "$($PathToAdd)$($SplitChar)$env:PATH"
+}
+
+Function Install-Dotnet($DotNetVersion)
+{
+    if ($IsMacOS -or $IsLinux) {
+        $ScriptPath = Join-Path $InstallPath 'dotnet-install.sh'
+        (New-Object System.Net.WebClient).DownloadFile($DotNetUnixInstallerUri, $ScriptPath);
+
+        & bash $ScriptPath --version "$DotNetVersion" --install-dir "$InstallPath" --channel "$DotNetChannel" --no-path
+    }
+    else {
+        $ScriptPath = Join-Path $InstallPath 'dotnet-install.ps1'
+        (New-Object System.Net.WebClient).DownloadFile($DotNetInstallerUri, $ScriptPath);
+
+        & $ScriptPath -Channel $DotNetChannel -Version $DotNetVersion -InstallDir $InstallPath;
+    }
+}
+
 # Get .NET Core CLI path if installed.
 $FoundDotNetCliVersion = $null;
-if (Get-Command dotnet -ErrorAction SilentlyContinue) {
-    $FoundDotNetCliVersion = dotnet --version;
-}
 
 if($FoundDotNetCliVersion -ne $DotNetVersion) {
     $InstallPath = Join-Path $PSScriptRoot ".dotnet"
@@ -122,27 +145,16 @@ if($FoundDotNetCliVersion -ne $DotNetVersion) {
         New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null;
     }
 
-    if ($IsMacOS -or $IsLinux) {
-        $ScriptPath = Join-Path $InstallPath 'dotnet-install.sh'
-        (New-Object System.Net.WebClient).DownloadFile($DotNetUnixInstallerUri, $ScriptPath);
-        & bash $ScriptPath --version "$DotNetVersion" --install-dir "$InstallPath" --channel "$DotNetChannel" --no-path
-        Remove-PathVariable "$InstallPath"
-        $env:PATH = "$($InstallPath):$env:PATH"
-    }
-    else {
-        $ScriptPath = Join-Path $InstallPath 'dotnet-install.ps1'
-        (New-Object System.Net.WebClient).DownloadFile($DotNetInstallerUri, $ScriptPath);
-        & $ScriptPath -Channel $DotNetChannel -Version $DotNetVersion -InstallDir $InstallPath;
-
+    Install-Dotnet $DotNetVersion
+    Install-Dotnet "2.1.802"
+    
     Remove-PathVariable "$InstallPath"
-    $env:PATH = "$InstallPath;$env:PATH"
-    }
+    Add-PathVariable "$InstallPath"
     $env:DOTNET_ROOT=$InstallPath
 }
 
 $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
-
 
 ###########################################################################
 # INSTALL CAKE
