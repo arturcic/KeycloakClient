@@ -18,5 +18,8 @@ jobs:
         with:
           dotnet-version: '2.2.402'
       - name: 'Cake build & pack'
+        shell: info
+        run: dotnet --info
+      - name: 'Cake build & pack'
         shell: pwsh
         run: ./build.ps1 -Target Pack
