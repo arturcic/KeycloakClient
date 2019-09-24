@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
 using System.Linq;
+using System.Net.Http;
 
 namespace KeycloakClient.Test
 {
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTests
+    public class IntegrationTestsRealmAdmin : IDisposable
     {
-        public IntegrationTests()
+        public IntegrationTestsRealmAdmin()
         {
             client = new KeycloakClient(new KeycloakAdminClientOptions
             {
@@ -69,6 +70,34 @@ namespace KeycloakClient.Test
             res2.Enabled.Should().BeFalse("The realm should be disabled");
             res2.Name.Should().BeEquivalentTo("testRealm", "The default realm name should be equal to 'testRealm'");
             res2.DisplayName.Should().BeEquivalentTo("test Display name update", "The default realm DisplayName should be equal to 'test Display name update'");
+        }
+
+        [Trait("Category", "IntegrationTest")]
+        [Fact, TestPriority(4)]
+        public async Task GetUpdatedRealm()
+        {
+            var res = await client.Realms().Name("testRealm").GetAsync();
+
+            res.Enabled.Should().BeFalse("The realm should be disabled");
+            res.Name.Should().BeEquivalentTo("testRealm", "The default realm name should be equal to 'testRealm'");
+            res.DisplayName.Should().BeEquivalentTo("test Display name update", "The default realm DisplayName should be equal to 'test Display name update'");
+        }
+
+        [Trait("Category", "IntegrationTest")]
+        [Fact, TestPriority(5)]
+        public async Task DeleteTheUpdatedRealm()
+        {
+            var res = await client.Realms().Name("testRealm").DeleteAsync();
+            res.Should().BeTrue("The delete realm result should be true");
+
+            Exception ex = await Assert.ThrowsAsync<HttpRequestException>(() => client.Realms().Name("testRealm").GetAsync());
+
+            ex.Message.Should().Contain("404 (Not Found)");
+        }
+
+        public void Dispose()
+        {
+            client = null;
         }
 
         private KeycloakClient client;
