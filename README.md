@@ -1,3 +1,4 @@
+
 .NET KeycloakClient Admin client
 
 | Build server    | Platform | Build status                                                     |
@@ -16,17 +17,14 @@
 Inspired by [Java admin client](https://github.com/keycloak/keycloak/tree/master/integration/admin-client/src/main/java/org/keycloak/admin/client)
 
 ## Features
-
-* Keycloak v4.3 supported
+* Keycloak v7.0 supported
 
 ## Install
-
 ```sh
 dotnet add package keycloak.admin.client --version 1.0.0
 ```
 
 ## Usage
-
 ```c#
 // add in ConfigureService for Asp.Net Core apps
 services.AddKeycloakAdminClient(options =>
@@ -68,8 +66,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 ```
 
 ## Supported APIs
-
-### [Realm admin](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_realms_admin_resource)
+### [Realm admin](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_realms_admin_resource)
 
 |   Method 	| Url pattern 	| Description                                             	|
 |---------:	|-------------	|---------------------------------------------------------	|
@@ -80,7 +77,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 | `DELETE` 	| `/{realm}`  	| Delete the realm                                        	|
 
 
-### [User](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_users_resource)
+### [User](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_users_resource)
 
 |   Method 	| Url pattern                                	| Description                                                                                                              	|
 |---------:	|-------------------------------------------- 	|--------------------------------------------------------------------------------------------------------------------------	|
@@ -97,7 +94,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `PUT` 	| `/{realm}/users/{id}/execute-actions-email`	| Send a update account email to the user An email contains a link the user can click to perform a set of required actions 	|
 
 
-### [Group](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_groups_resource)
+### [Group](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_groups_resource)
 
 |   Method 	| Url pattern                    	| Description                                                                	|
 |---------:	|--------------------------------	|----------------------------------------------------------------------------	|
@@ -109,7 +106,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/groups/{id}/members` 	| Get group users                                                            	|
 
 
-### [Client](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_clients_resource)
+### [Client](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_clients_resource)
 
 |   Method 	| Url pattern             	| Description                        	|
 |---------:	|-------------------------	|------------------------------------	|
@@ -120,7 +117,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 | `DELETE` 	| `/{realm}/clients/{id}` 	| Delete the client                  	|
 
 
-### [Realm Roles](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_roles_resource)
+### [Realm Roles](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_roles_resource)
 
 |   Method 	| Url pattern                                               	| Description                                                                           	|
 |---------:	|-----------------------------------------------------------	|---------------------------------------------------------------------------------------	|
@@ -137,7 +134,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/roles/{role-name}/users`                        	| Return List of Users that have the specified role name                                	|
 
 
-### [Roles (by ID)](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_roles_by_id_resource)
+### [Roles (by ID)](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_roles_by_id_resource)
 
 |   Method 	| Url pattern                                                   	| Description                                                                           	|
 |---------:	|---------------------------------------------------------------	|---------------------------------------------------------------------------------------	|
@@ -151,7 +148,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/roles-by-id/{role-id}/composites/clients/{clientId}`	| Get client-level roles for the client that are in the role's composite                	|
 
 
-### [Client roles](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_roles_resource)
+### [Client roles](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_roles_resource)
 
 |   Method 	| Url pattern                                                            	| Description                                                                           	|
 |---------:	|------------------------------------------------------------------------	|---------------------------------------------------------------------------------------	|
@@ -168,7 +165,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/clients/{id}/roles/{role-name}/users`                        	| Return List of Users that have the specified role name                                	|
 
 
-### [User role-mapping](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_role_mapper_resource)
+### [User role-mapping](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_role_mapper_resource)
 
 |   Method 	| Url pattern                                         	| Description                                                               	|
 |---------:	|-----------------------------------------------------	|---------------------------------------------------------------------------	|
@@ -180,7 +177,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/users/{id}/role-mappings/realm/composite` 	| Get effective realm-level role mappings This recurses any composite roles 	|
 
 
-### [Client role-mapping for user](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_role_mappings_resource)
+### [Client role-mapping for user](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_role_mappings_resource)
 
 |   Method 	| Url pattern                                                    	| Description                                                                	|
 |---------:	|----------------------------------------------------------------	|----------------------------------------------------------------------------	|
@@ -191,7 +188,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `GET` 	| `/{realm}/users/{id}/role-mappings/clients/{client}/composite` 	| Get effective client-level role mappings This recurses any composite roles 	|
 
 
-### [Group role-mapping](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_role_mapper_resource)
+### [Group role-mapping](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_role_mapper_resource)
 
 |   Method 	| Url pattern                                          	| Description                                                               	|
 |---------:	|------------------------------------------------------	|---------------------------------------------------------------------------	|
@@ -202,7 +199,7 @@ var clientCreated = await clientsResource.CreateAsync(client);
 |    `Get` 	| `/{realm}/groups/{id}/role-mappings/realm/available` 	| Get realm-level roles that can be mapped for the group                    	|
 |    `Get` 	| `/{realm}/groups/{id}/role-mappings/realm/composite` 	| Get effective realm-level role mappings This recurses any composite roles 	|
 
-### [Client role-mapping for group](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_role_mappings_resource)
+### [Client role-mapping for group](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_role_mappings_resource)
 
 |   Method 	| Url pattern                                                     	| Description                                                               	|
 |---------:	|-----------------------------------------------------------------	|---------------------------------------------------------------------------	|
@@ -214,15 +211,15 @@ var clientCreated = await clientsResource.CreateAsync(client);
 
 
 ## Not yet supported
-* [Attack Detection](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_attack_detection_resource)
-* [Authentication Management](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_authentication_management_resource)
-* [Client Attribute Certificate](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_attribute_certificate_resource)
-* [Client Initial Access](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_initial_access_resource)
-* [Client Registration Policy](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_registration_policy_resource)
-* [Client Scopes](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_client_scopes_resource)
-* [Key](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_key_resource)
-* [Protocol Mappers](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_protocol_mappers_resource)
-* [Scope Mappings](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_scope_mappings_resource)
-* [User Storage Provider](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_user_storage_provider_resource)
-* [Identity Providers](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_identity_providers_resource)
-* [Component](https://www.keycloak.org/docs-api/4.3/rest-api/index.html#_component_resource)
+* [Attack Detection](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_attack_detection_resource)
+* [Authentication Management](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_authentication_management_resource)
+* [Client Attribute Certificate](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_attribute_certificate_resource)
+* [Client Initial Access](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_initial_access_resource)
+* [Client Registration Policy](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_registration_policy_resource)
+* [Client Scopes](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_client_scopes_resource)
+* [Key](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_key_resource)
+* [Protocol Mappers](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_protocol_mappers_resource)
+* [Scope Mappings](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_scope_mappings_resource)
+* [User Storage Provider](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_user_storage_provider_resource)
+* [Identity Providers](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_identity_providers_resource)
+* [Component](https://www.keycloak.org/docs-api/7.0/rest-api/index.html#_component_resource)
