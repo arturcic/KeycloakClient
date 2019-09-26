@@ -47,11 +47,12 @@ Task("Test")
                 settings.Logger = $"xunit;LogFilePath={resultsPath}";
             }
 
+            var outputFileTemplate = ($"{projectName}.coverage").Replace(".", "_");
             var coverletSettings = new CoverletSettings {
                 CollectCoverage = true,
-                CoverletOutputFormat = CoverletOutputFormat.opencover,
+                CoverletOutputFormat = CoverletOutputFormat.opencover | CoverletOutputFormat.json,
                 CoverletOutputDirectory = testResultsPath,
-                CoverletOutputName = $"{projectName}.coverage.xml"
+                CoverletOutputName = outputFileTemplate
             };               
 
             DotNetCoreTest(project.FullPath, settings, coverletSettings);
@@ -112,11 +113,13 @@ Task("IntegrationTest")
                 settings.Logger = $"xunit;LogFilePath={resultsPath}";
             }
 
+            var outputFileTemplate = ($"{projectName}.coverage").Replace(".", "_");
             var coverletSettings = new CoverletSettings {
                 CollectCoverage = true,
-                CoverletOutputFormat = CoverletOutputFormat.opencover,
+                CoverletOutputFormat = CoverletOutputFormat.opencover | CoverletOutputFormat.json,
                 CoverletOutputDirectory = testResultsPath,
-                CoverletOutputName = $"{projectName}.coverageIntegration.xml"
+                MergeWithFile = $"{outputFileTemplate}.json",
+                CoverletOutputName = outputFileTemplate
             };
 
             DotNetCoreTest(project.FullPath, settings, coverletSettings);
@@ -257,8 +260,7 @@ Task("Publish-Coverage")
     .IsDependentOnWhen("Test", singleStageRun)
     .Does<BuildParameters>((parameters) =>
 {
-    var coverageFiles = GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.coverage.xml")
-        + GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.coverageIntegration.xml");
+    var coverageFiles = GetFiles(parameters.Paths.Directories.TestResultsOutput + "/*.opencover.xml");
 
     var token = parameters.Credentials.CodeCov.Token;
     if(string.IsNullOrEmpty(token)) {
