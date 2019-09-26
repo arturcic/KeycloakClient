@@ -10,20 +10,8 @@ using KeycloakClient.Group.Models;
 namespace KeycloakClient.Test
 {
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTestsGroup : IDisposable
+    public class IntegrationTestsGroup : IntegrationTestBase
     {
-        public IntegrationTestsGroup()
-        {
-            client = new KeycloakClient(new KeycloakAdminClientOptions
-            {
-                ClientId = "admin-cli",
-                Username = "Admin",
-                Password = "Admin",
-                Realm = "master",
-                Url = new Uri("http://localhost:8080/auth/")                
-            });
-        }
-
         [Trait("Category", "IntegrationTest")]
         [Fact, TestPriority(1)]
         public async Task CreateNewUser()
@@ -168,13 +156,5 @@ namespace KeycloakClient.Test
 
             ex.Message.Should().Contain("404 (Not Found)");
         }
-
-        public void Dispose()
-        {
-            client = null;
-        }
-
-        private KeycloakClient client;
-       
     }
 }

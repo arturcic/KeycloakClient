@@ -8,21 +8,8 @@ using System.Net.Http;
 namespace KeycloakClient.Test
 {
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTestsRealmAdmin : IDisposable
+    public class IntegrationTestsRealmAdmin : IntegrationTestBase
     {
-        public IntegrationTestsRealmAdmin()
-        {
-            client = new KeycloakClient(new KeycloakAdminClientOptions
-            {
-                ClientId = "admin-cli",
-                Username = "Admin",
-                Password = "Admin",
-                Realm = "master",
-                Url = new Uri("http://localhost:8080/auth/"),
-                
-            });
-        }
-
         [Trait("Category", "IntegrationTest")]
         [Fact, TestPriority(1)]
         public async Task GetRealmList()
@@ -94,13 +81,5 @@ namespace KeycloakClient.Test
 
             ex.Message.Should().Contain("404 (Not Found)");
         }
-
-        public void Dispose()
-        {
-            client = null;
-        }
-
-        private KeycloakClient client;
-       
     }
 }

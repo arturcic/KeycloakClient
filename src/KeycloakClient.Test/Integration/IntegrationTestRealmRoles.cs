@@ -4,25 +4,14 @@ using Xunit;
 using FluentAssertions;
 using System.Linq;
 using System.Net.Http;
-using KeycloakClient.User.Models;
 using System.Collections.Generic;
 
 namespace KeycloakClient.Test
 {
+
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTestsRealmRoles : IDisposable
+    public class IntegrationTestsRealmRoles : IntegrationTestBase
     {
-        public IntegrationTestsRealmRoles()
-        {
-            client = new KeycloakClient(new KeycloakAdminClientOptions
-            {
-                ClientId = "admin-cli",
-                Username = "Admin",
-                Password = "Admin",
-                Realm = "master",
-                Url = new Uri("http://localhost:8080/auth/")                
-            });
-        }
 
         [Trait("Category", "IntegrationTest")]
         [Fact, TestPriority(1)]
@@ -157,13 +146,5 @@ namespace KeycloakClient.Test
 
             ex.Message.Should().Contain("404 (Not Found)");
         }
-
-        public void Dispose()
-        {
-            client = null;
-        }
-
-        private KeycloakClient client;
-       
     }
 }
