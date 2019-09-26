@@ -16,7 +16,7 @@ namespace KeycloakClient.Role
         Task<List<Role.Models.Role>> GetClientRoleCompositesAsync([PathParam("clientId")]string clientId);
 
         [Post("composites")]
-        Task<bool> AddAsync([Body]List<Models.Role> roles);
+        Task<(string Id, bool Success)> AddAsync([Body]List<Models.Role> roles);
 
         [Delete("composites")]
         Task<bool> RemoveAsync([Body]List<Models.Role> roles);

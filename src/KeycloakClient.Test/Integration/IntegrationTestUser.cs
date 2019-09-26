@@ -9,20 +9,8 @@ using KeycloakClient.User.Models;
 namespace KeycloakClient.Test
 {
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTestsUser : IDisposable
+    public class IntegrationTestsUser : IntegrationTestBase
     {
-        public IntegrationTestsUser()
-        {
-            client = new KeycloakClient(new KeycloakAdminClientOptions
-            {
-                ClientId = "admin-cli",
-                Username = "Admin",
-                Password = "Admin",
-                Realm = "master",
-                Url = new Uri("http://localhost:8080/auth/")                
-            });
-        }
-
         [Trait("Category", "IntegrationTest")]
         [Fact, TestPriority(1)]
         public async Task GetUsersList()
@@ -216,14 +204,6 @@ namespace KeycloakClient.Test
             Exception ex = await Assert.ThrowsAsync<HttpRequestException>(() => client.Realms().Name("testRealm").Users().Id(userID).GetAsync());
 
             ex.Message.Should().Contain("404 (Not Found)");
-        }
-
-        public void Dispose()
-        {
-            client = null;
-        }
-
-        private KeycloakClient client;
-       
+        }       
     }
 }
