@@ -85,8 +85,7 @@ namespace KeycloakClient.Test
             var user = await client.Realms().Name("master").Users().FindAsync(new User.Models.UserFilter() { Username = "admin" });
             var roles = await client.Realms().Name("master").Users().Id(user.First().Id).Roles().Realm().GetAvailableAsync();
 
-            roles.Should().HaveCount(1);
-            roles.First().Name.Should().BeEquivalentTo("newRoleMapping");
+            roles.Select(el => el.Name).Should().Contain(new[] { "newRoleMapping" });
         }
 
         [Trait("Category", "IntegrationTest")]

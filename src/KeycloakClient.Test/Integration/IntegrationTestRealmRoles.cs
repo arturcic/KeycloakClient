@@ -19,7 +19,7 @@ namespace KeycloakClient.Test
         {
             var res = await client.Realms().Name("master").Roles().GetAllAsync();
 
-            res.Should().HaveCount(4, "The count of realm rols should be equal to 4");
+            res.Select(el => el.Name).Should().Contain(new[] { "admin", "create-realm", "offline_access", "uma_authorization" });
         }
 
         [Trait("Category", "IntegrationTest")]

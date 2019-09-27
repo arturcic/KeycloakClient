@@ -23,7 +23,7 @@ namespace KeycloakClient.Test
 
             var roles = await client.Realms().Name("master").Clients().Id(clients.First().Id).Roles().GetAllAsync();
 
-            roles.Should().HaveCount(3);
+            roles.Select(el => el.Name).Should().Contain(new[] { "manage-account-links", "view-profile", "manage-account" });
         }
 
         [Trait("Category", "IntegrationTest")]
