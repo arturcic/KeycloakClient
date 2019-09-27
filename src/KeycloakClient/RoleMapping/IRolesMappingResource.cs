@@ -6,7 +6,7 @@ namespace KeycloakClient.RoleMapping
     public interface IRolesMappingResource
     {
         [Get]
-        Task<List<Models.RoleMapping>> GetAllAsync();
+        Task<Models.RoleMapping> GetAsync();
         
         [Path("realm")]
         IRoleMappingResource Realm();
