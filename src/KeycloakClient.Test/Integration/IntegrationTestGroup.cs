@@ -33,9 +33,8 @@ namespace KeycloakClient.Test
         {
             var res = await client.Realms().Name("master").Groups().GetAllAsync();
 
-            res.Should().HaveCount(1, "The default lenth of realm users should be equal to 1");
-            res.First().Name.Should().BeEquivalentTo("testGroup", "The group name should be equal to 'testGroup'");
-            res.First().Path.Should().BeEquivalentTo("/testGroup", "The group name should be equal to '/testGroup'");
+            res.Select(el => el.Name).Should().Contain(new[] { "testGroup" });
+            res.Select(el => el.Path).Should().Contain(new[] { "/testGroup" });
             
         }
 
