@@ -15,7 +15,7 @@ namespace KeycloakClient.RoleMapping
         Task<List<Role.Models.Role>> GetEffectiveAsync();
         
         [Post]
-        Task<(string, bool)> AddRolesAsync([Body]List<Role.Models.Role> roles);
+        Task<(string Id, bool Success)> AddRolesAsync([Body]List<Role.Models.Role> roles);
         
         [Delete]
         Task<bool> RemoveRolesAsync([Body]List<Role.Models.Role> roles);

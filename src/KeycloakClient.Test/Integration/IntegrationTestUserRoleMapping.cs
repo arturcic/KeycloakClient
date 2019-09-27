@@ -10,7 +10,7 @@ namespace KeycloakClient.Test
 {
 
     [TestCaseOrderer("KeycloakClient.Test.PriorityOrderer", "KeycloakClient.Test")]
-    public class IntegrationTestsUserRolesMapping : IntegrationTestBase
+    public class IntegrationTestUserRolesMapping : IntegrationTestBase
     {
 
         [Trait("Category", "IntegrationTest")]
