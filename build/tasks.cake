@@ -163,7 +163,7 @@ void StartDockerContainer()
         },
         Detach = true
     };
-    DockerRun(dockerSettings, "jboss/keycloak", null);
+    DockerRun(dockerSettings, "jboss/keycloak:7.0.1", null);
 
     string responseBody = "";
     do {
